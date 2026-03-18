@@ -36,18 +36,12 @@ namespace WinOptimizerHub
         {
             base.OnStartup(e);
 
-            // ── Global exception handlers ─────────────────────────────────
-
-            // 1. WPF UI thread exceptions
             DispatcherUnhandledException += OnDispatcherUnhandledException;
 
-            // 2. Background Task exceptions that were never awaited/observed
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
 
-            // 3. Non-WPF thread exceptions (finalizers, thread pool etc.)
             AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
 
-            // ── Admin check ───────────────────────────────────────────────
             if (!IsRunningAsAdministrator())
             {
                 var customMsgBox = new CustomMessageBoxWindow(
@@ -61,7 +55,6 @@ namespace WinOptimizerHub
                 return;
             }
 
-            // ── Load persisted settings ───────────────────────────────────
             var settings = UserSettings.Current;
             IsDarkTheme = settings.IsDarkTheme;
             ApplyTheme();
@@ -69,18 +62,14 @@ namespace WinOptimizerHub
 
         protected override void OnExit(ExitEventArgs e)
         {
-            // Window state is saved by MainWindow on Close
             base.OnExit(e);
         }
-
-        // ── Exception handlers ────────────────────────────────────────────
 
         private static void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             AppLogger.Log(e.Exception, "UI.UnhandledException");
             e.Handled = true; // prevent crash
 
-            // Show toast if main window is available, otherwise MessageBox
             if (Current?.MainWindow?.DataContext is ViewModels.MainViewModel vm)
                 vm.Toast.ShowError("Unexpected Error", e.Exception.Message);
             else
@@ -102,8 +91,6 @@ namespace WinOptimizerHub
                 AppLogger.Log(ex, "AppDomain.UnhandledException");
         }
 
-        // ── Helpers ───────────────────────────────────────────────────────
-
         private static bool IsRunningAsAdministrator()
         {
             try
@@ -118,15 +105,27 @@ namespace WinOptimizerHub
         {
             try
             {
+                var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
                 var psi = new System.Diagnostics.ProcessStartInfo
                 {
-                    FileName = System.Diagnostics.Process.GetCurrentProcess().MainModule!.FileName,
+                    FileName = currentProcess.MainModule?.FileName,
                     UseShellExecute = true,
                     Verb = "runas"
                 };
-                System.Diagnostics.Process.Start(psi);
+
+                if (System.Diagnostics.Process.Start(psi) != null)
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }
             }
-            catch (System.ComponentModel.Win32Exception) { /* user cancelled UAC */ }
+            catch (System.ComponentModel.Win32Exception ex)
+            {
+                AppLogger.Log(ex, "RestartAsAdmin.UserCancelledElevation");
+            }
+            catch (Exception ex)
+            {
+                AppLogger.Log(ex, "RestartAsAdmin.GeneralFailure");
+            }
         }
     }
 }
