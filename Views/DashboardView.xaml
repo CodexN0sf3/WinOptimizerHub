@@ -1,0 +1,252 @@
+<UserControl x:Class="WinOptimizerHub.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel Margin="24">
+        <!-- Header -->
+        <Grid Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Style="{DynamicResource HeadingText}" Text="System Dashboard"/>
+                <TextBlock Style="{DynamicResource SecondaryText}"
+                           Text="Real-time system overview and quick actions" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Button Grid.Column="1" Style="{DynamicResource PrimaryButton}"
+                    Command="{Binding OneClickCommand}" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE9F5;" FontFamily="{DynamicResource IconFont}"
+                               FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="One-Click Optimize" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- System Info Cards -->
+        <UniformGrid Rows="1" Columns="4" Margin="0,0,0,16">
+            <!-- CPU -->
+            <Border Style="{DynamicResource Card}" Margin="0,0,8,0">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Border Width="36" Height="36" CornerRadius="8" Background="{DynamicResource CpuGradient}" Margin="0,0,12,0">
+                            <TextBlock Text="&#xE821;" FontFamily="{DynamicResource IconFont}" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="CPU" Style="{DynamicResource SecondaryText}"/>
+                            <TextBlock Text="{Binding CpuPercent, StringFormat={}{0:F0}%}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ProgressBar Style="{DynamicResource ModernProgressBar}" Foreground="{DynamicResource AccentBrush}" Maximum="100" Value="{Binding CpuPercent, Mode=OneWay}"/>
+                    <TextBlock Text="{Binding CpuName}" Style="{DynamicResource MutedText}" Margin="0,6,0,0" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </Border>
+            <!-- RAM -->
+            <Border Style="{DynamicResource Card}" Margin="4,0">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Border Width="36" Height="36" CornerRadius="8" Background="{DynamicResource RamGradient}" Margin="0,0,12,0">
+                            <TextBlock Text="&#xE950;" FontFamily="{DynamicResource IconFont}" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="RAM" Style="{DynamicResource SecondaryText}"/>
+                            <TextBlock Text="{Binding RamPercent, StringFormat={}{0:F0}%}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ProgressBar Style="{DynamicResource ModernProgressBar}" Foreground="#8B5CF6" Maximum="100" Value="{Binding RamPercent, Mode=OneWay}"/>
+                    <TextBlock Text="{Binding RamUsedGb, StringFormat={}{0:F1} GB used}" Style="{DynamicResource MutedText}" Margin="0,6,0,0"/>
+                </StackPanel>
+            </Border>
+            <!-- Disk -->
+            <Border Style="{DynamicResource Card}" Margin="4,0">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Border Width="36" Height="36" CornerRadius="8" Background="{DynamicResource DiskGradient}" Margin="0,0,12,0">
+                            <TextBlock Text="&#xEDA2;" FontFamily="{DynamicResource IconFont}" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Disk (C:)" Style="{DynamicResource SecondaryText}"/>
+                            <TextBlock Text="{Binding DiskPercent, StringFormat={}{0:F0}%}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ProgressBar Style="{DynamicResource ModernProgressBar}" Foreground="#22C55E" Maximum="100" Value="{Binding DiskPercent, Mode=OneWay}"/>
+                    <TextBlock Text="{Binding DiskUsedGb, StringFormat={}{0:F1} GB used}" Style="{DynamicResource MutedText}" Margin="0,6,0,0"/>
+                </StackPanel>
+            </Border>
+            <!-- System -->
+            <Border Style="{DynamicResource Card}" Margin="8,0,0,0">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Border Width="36" Height="36" CornerRadius="8" Background="{DynamicResource TempGradient}" Margin="0,0,12,0">
+                            <TextBlock Text="&#xECF0;" FontFamily="{DynamicResource IconFont}" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="System" Style="{DynamicResource SecondaryText}"/>
+                            <TextBlock Text="{Binding UptimeDisplay}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock Text="{Binding OsName}" Style="{DynamicResource SecondaryText}"/>
+                    <TextBlock Text="{Binding ComputerName}" Style="{DynamicResource MutedText}" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- Two-column layout -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="340"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Quick Actions -->
+            <Border Grid.Column="0" Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Quick Actions" Style="{DynamicResource SubheadingText}" Margin="0,0,0,16"/>
+                    <UniformGrid Rows="2" Columns="3">
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,6,6" Click="QuickClean_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xE74D;" FontFamily="{DynamicResource IconFont}" FontSize="22" HorizontalAlignment="Center" Foreground="{DynamicResource AccentBrush}"/>
+                                <TextBlock Text="Quick Clean" FontSize="11" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="3,0,3,6" Click="QuickFlushDns_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xF785;" FontFamily="{DynamicResource IconFont}" FontSize="22" HorizontalAlignment="Center" Foreground="#22C55E"/>
+                                <TextBlock Text="Flush DNS" FontSize="11" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="6,0,0,6" Click="QuickRamOptimize_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xE950;" FontFamily="{DynamicResource IconFont}" FontSize="22" HorizontalAlignment="Center" Foreground="#8B5CF6"/>
+                                <TextBlock Text="Free RAM" FontSize="11" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,6,0" Click="QuickEmptyRecycleBin_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xE74D;" FontFamily="{DynamicResource IconFont}" FontSize="22" HorizontalAlignment="Center" Foreground="#F59E0B"/>
+                                <TextBlock Text="Recycle Bin" FontSize="11" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="3,0,3,0" Click="QuickSfc_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xE930;" FontFamily="{DynamicResource IconFont}" FontSize="22" HorizontalAlignment="Center" Foreground="#EF4444"/>
+                                <TextBlock Text="SFC Scan" FontSize="11" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="6,0,0,0" Click="QuickDefrag_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="&#xEDA2;" FontFamily="{DynamicResource IconFont}" FontSize="22" HorizontalAlignment="Center" Foreground="#06B6D4"/>
+                                <TextBlock Text="Defrag" FontSize="11" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Activity Log -->
+            <Border Grid.Column="2" Style="{DynamicResource Card}">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,12">
+                        <TextBlock Text="Activity Log" Style="{DynamicResource SubheadingText}"/>
+                        <Button Style="{DynamicResource GhostButton}" Margin="8,0,0,0"
+                                Command="{Binding ClearLogCommand}" VerticalAlignment="Center" Padding="6,3">
+                            <TextBlock Text="Clear" Style="{DynamicResource SecondaryText}"/>
+                        </Button>
+                        <Button Style="{DynamicResource GhostButton}" Margin="4,0,0,0"
+                                Command="{Binding ExportLogCommand}" VerticalAlignment="Center" Padding="6,3">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE74E;" FontFamily="{DynamicResource IconFont}"
+                                           FontSize="12" Margin="0,0,4,0" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Text="Export" Style="{DynamicResource SecondaryText}"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <ScrollViewer DockPanel.Dock="Top" Height="190" VerticalScrollBarVisibility="Auto"
+                                  Style="{DynamicResource ModernScrollViewer}">
+                        <ListBox ItemsSource="{Binding ActivityLog}" Background="Transparent" BorderThickness="0"
+                                 VirtualizingPanel.IsVirtualizing="True"
+                                 VirtualizingPanel.VirtualizationMode="Recycling">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontSize="11"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               TextWrapping="Wrap" Padding="0,2"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- Cleaning Profile -->
+        <Border Style="{DynamicResource Card}" Margin="0,16,0,0">
+            <StackPanel>
+                <TextBlock Text="Cleaning Profile" Style="{DynamicResource SubheadingText}" Margin="0,0,0,12"/>
+                <UniformGrid Rows="1" Columns="3">
+                    <RadioButton x:Name="ModeSafe" GroupName="DashCleanMode" IsChecked="True" Click="CleanMode_Changed" Margin="0,0,6,0">
+                        <RadioButton.Template>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border x:Name="modeBorder" CornerRadius="10" Background="{DynamicResource BgCardHoverBrush}"
+                                        BorderThickness="2" BorderBrush="{DynamicResource BorderBrush}" Padding="16" Cursor="Hand">
+                                    <StackPanel>
+                                        <TextBlock Text="&#xE8F1;" FontFamily="{DynamicResource IconFont}" FontSize="28" Foreground="#22C55E" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Safe" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                        <TextBlock Text="Temp files only, zero risk" Style="{DynamicResource SecondaryText}" TextAlignment="Center" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="modeBorder" Property="BorderBrush" Value="#22C55E"/>
+                                        <Setter TargetName="modeBorder" Property="Background" Value="#0A22C55E"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </RadioButton.Template>
+                    </RadioButton>
+                    <RadioButton x:Name="ModeNormal" GroupName="DashCleanMode" Click="CleanMode_Changed" Margin="3,0">
+                        <RadioButton.Template>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border x:Name="modeBorder" CornerRadius="10" Background="{DynamicResource BgCardHoverBrush}"
+                                        BorderThickness="2" BorderBrush="{DynamicResource BorderBrush}" Padding="16" Cursor="Hand">
+                                    <StackPanel>
+                                        <TextBlock Text="&#xE945;" FontFamily="{DynamicResource IconFont}" FontSize="28" Foreground="#F59E0B" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Normal" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                        <TextBlock Text="Balanced — temp, cache, basic registry" Style="{DynamicResource SecondaryText}" TextAlignment="Center" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="modeBorder" Property="BorderBrush" Value="#F59E0B"/>
+                                        <Setter TargetName="modeBorder" Property="Background" Value="#0AF59E0B"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </RadioButton.Template>
+                    </RadioButton>
+                    <RadioButton x:Name="ModeAggressive" GroupName="DashCleanMode" Click="CleanMode_Changed" Margin="6,0,0,0">
+                        <RadioButton.Template>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border x:Name="modeBorder" CornerRadius="10" Background="{DynamicResource BgCardHoverBrush}"
+                                        BorderThickness="2" BorderBrush="{DynamicResource BorderBrush}" Padding="16" Cursor="Hand">
+                                    <StackPanel>
+                                        <TextBlock Text="&#xE946;" FontFamily="{DynamicResource IconFont}" FontSize="28" Foreground="#EF4444" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Aggressive" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                        <TextBlock Text="Deep clean — all files, registry, logs" Style="{DynamicResource SecondaryText}" TextAlignment="Center" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="modeBorder" Property="BorderBrush" Value="#EF4444"/>
+                                        <Setter TargetName="modeBorder" Property="Background" Value="#0AEF4444"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </RadioButton.Template>
+                    </RadioButton>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

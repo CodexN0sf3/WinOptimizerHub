@@ -1,0 +1,123 @@
+<UserControl x:Class="WinOptimizerHub.Views.PrivacyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:WinOptimizerHub.Converters">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolVis"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InvBoolVis"/>
+        <converters:InverseBoolConverter x:Key="InvBool"/>
+        <converters:FileSizeConverter x:Key="FileSize"/>
+    </UserControl.Resources>
+    <StackPanel Margin="24">
+        <Grid Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Style="{DynamicResource HeadingText}" Text="Privacy Cleaner"/>
+                <TextBlock Style="{DynamicResource SecondaryText}"
+                           Text="Remove usage traces, MRU lists, logs and temporary files" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Button Grid.Column="1" Style="{DynamicResource SecondaryButton}" Command="{Binding ScanCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvBool}}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE721;" FontFamily="{DynamicResource IconFont}" FontSize="14" Margin="0,0,8,0"/>
+                    <TextBlock Text="Scan"/>
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="3" Style="{DynamicResource DangerButton}" Command="{Binding CleanCommand}"
+                    IsEnabled="{Binding HasItems}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE72E;" FontFamily="{DynamicResource IconFont}" FontSize="14" Margin="0,0,8,0"/>
+                    <TextBlock Text="Clean Selected"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Progress -->
+        <Border Style="{DynamicResource Card}" Margin="0,0,0,12"
+                Visibility="{Binding IsBusy, Converter={StaticResource BoolVis}}">
+            <StackPanel>
+                <TextBlock Text="{Binding StatusMessage}" Style="{DynamicResource SecondaryText}" Margin="0,0,0,8"/>
+                <ProgressBar Style="{DynamicResource ModernProgressBar}" IsIndeterminate="True"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Select All / None toolbar -->
+        <Border Style="{DynamicResource Card}" Margin="0,0,0,12"
+                Visibility="{Binding HasItems, Converter={StaticResource BoolVis}}">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{DynamicResource SecondaryButton}" Padding="10,4" Command="{Binding SelectAllCommand}">
+                    <TextBlock Text="Select All" FontSize="12"/>
+                </Button>
+                <Button Style="{DynamicResource SecondaryButton}" Padding="10,4" Margin="8,0,0,0" Command="{Binding SelectNoneCommand}">
+                    <TextBlock Text="Select None" FontSize="12"/>
+                </Button>
+                <TextBlock Text="{Binding SummaryText}" Style="{DynamicResource SecondaryText}"
+                           VerticalAlignment="Center" Margin="16,0,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Items grouped by category -->
+        <Border Style="{DynamicResource Card}"
+                Visibility="{Binding HasItems, Converter={StaticResource BoolVis}}">
+            <ItemsControl ItemsSource="{Binding GroupedItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,0,0,12">
+                            <Border BorderBrush="{DynamicResource AccentBrush}"
+                                    BorderThickness="0,0,0,1" Padding="0,0,0,6" Margin="0,0,0,8">
+                                <TextBlock Text="{Binding Category}" FontWeight="Bold" FontSize="13"
+                                           Foreground="{DynamicResource AccentBrush}"/>
+                            </Border>
+                            <ItemsControl ItemsSource="{Binding Items}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{DynamicResource SmallCard}" Margin="0,0,0,6">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                          Style="{DynamicResource ModernCheckBox}"
+                                                          VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                    <TextBlock Text="{Binding Description}" Style="{DynamicResource SecondaryText}" Margin="0,3,0,0"/>
+                                                </StackPanel>
+                                                <TextBlock Grid.Column="2"
+                                                           Text="{Binding EstimatedSize, Converter={StaticResource FileSize}}"
+                                                           FontSize="12" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource AccentBrush}"
+                                                           VerticalAlignment="Center" Margin="16,0,0,0"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <!-- Empty state -->
+        <Border Style="{DynamicResource Card}"
+                Visibility="{Binding HasItems, Converter={StaticResource InvBoolVis}}">
+            <StackPanel HorizontalAlignment="Center" Margin="40">
+                <TextBlock Text="&#xE721;" FontFamily="{DynamicResource IconFont}"
+                           FontSize="48" HorizontalAlignment="Center"
+                           Foreground="{DynamicResource TextMutedBrush}"/>
+                <TextBlock Text="Click Scan to find privacy traces"
+                           Style="{DynamicResource SecondaryText}"
+                           HorizontalAlignment="Center" Margin="0,12,0,0"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,115 @@
+<UserControl x:Class="WinOptimizerHub.Views.NetworkView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel Margin="24">
+        <TextBlock Style="{DynamicResource HeadingText}" Text="Network Tools" Margin="0,0,0,4"/>
+        <TextBlock Style="{DynamicResource SecondaryText}"
+                   Text="DNS flush, TCP/IP reset, Winsock reset and adapter info" Margin="0,0,0,20"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Tools -->
+            <Border Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Network Reset Tools" Style="{DynamicResource SubheadingText}" Margin="0,0,0,16"/>
+                    <UniformGrid Rows="3" Columns="2">
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,4,8" Command="{Binding FlushDnsCommand}">
+                            <StackPanel>
+                                <TextBlock Text="&#xF785;" FontFamily="{DynamicResource IconFont}" FontSize="24" HorizontalAlignment="Center" Foreground="{DynamicResource AccentBrush}"/>
+                                <TextBlock Text="Flush DNS" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="Clear DNS cache" FontSize="10" Margin="0,2,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,0,8" Command="{Binding ResetWinsockCommand}">
+                            <StackPanel>
+                                <TextBlock Text="&#xE968;" FontFamily="{DynamicResource IconFont}" FontSize="24" HorizontalAlignment="Center" Foreground="#8B5CF6"/>
+                                <TextBlock Text="Reset Winsock" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="Fix Winsock catalog" FontSize="10" Margin="0,2,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,4,8" Command="{Binding ResetTcpIpCommand}">
+                            <StackPanel>
+                                <TextBlock Text="&#xE7BA;" FontFamily="{DynamicResource IconFont}" FontSize="24" HorizontalAlignment="Center" Foreground="#22C55E"/>
+                                <TextBlock Text="Reset TCP/IP" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="Reset IP stack" FontSize="10" Margin="0,2,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,0,8" Command="{Binding ReleaseRenewCommand}">
+                            <StackPanel>
+                                <TextBlock Text="&#xE9CE;" FontFamily="{DynamicResource IconFont}" FontSize="24" HorizontalAlignment="Center" Foreground="#F59E0B"/>
+                                <TextBlock Text="Release/Renew IP" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="Renew DHCP lease" FontSize="10" Margin="0,2,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,4,0" Command="{Binding ResetFirewallCommand}">
+                            <StackPanel>
+                                <TextBlock Text="&#xE8EA;" FontFamily="{DynamicResource IconFont}" FontSize="24" HorizontalAlignment="Center" Foreground="#EF4444"/>
+                                <TextBlock Text="Reset Firewall" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="Default firewall rules" FontSize="10" Margin="0,2,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,0,0" Command="{Binding RefreshAdaptersCommand}">
+                            <StackPanel>
+                                <TextBlock Text="&#xE72C;" FontFamily="{DynamicResource IconFont}" FontSize="24" HorizontalAlignment="Center" Foreground="#06B6D4"/>
+                                <TextBlock Text="Refresh Adapters" FontSize="12" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                    </UniformGrid>
+                    <!-- Output -->
+                    <Border Background="{DynamicResource BgSecondaryBrush}" CornerRadius="8"
+                            Padding="12" Margin="0,16,0,0">
+                        <ScrollViewer Height="120" VerticalScrollBarVisibility="Auto"
+                                      Style="{DynamicResource ModernScrollViewer}">
+                            <TextBlock Text="{Binding OutputText}" FontSize="12"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       TextWrapping="Wrap" FontFamily="{DynamicResource MonoFont}"/>
+                        </ScrollViewer>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Adapters -->
+            <Border Grid.Column="2" Style="{DynamicResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Network Adapters" Style="{DynamicResource SubheadingText}" Margin="0,0,0,12"/>
+                    <ItemsControl ItemsSource="{Binding Adapters}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{DynamicResource SmallCard}" Margin="0,0,0,8">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                        <Grid Margin="0,8,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="IP:" Style="{DynamicResource MutedText}" Grid.Row="0"/>
+                                            <TextBlock Text="{Binding IpAddress}" Grid.Row="0" Grid.Column="1" Style="{DynamicResource SecondaryText}"/>
+                                            <TextBlock Text="Gateway:" Style="{DynamicResource MutedText}" Grid.Row="1" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Gateway}" Grid.Row="1" Grid.Column="1" Style="{DynamicResource SecondaryText}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="Subnet:" Style="{DynamicResource MutedText}" Grid.Row="2" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding SubnetMask}" Grid.Row="2" Grid.Column="1" Style="{DynamicResource SecondaryText}" Margin="0,4,0,0"/>
+                                            <TextBlock Text="DNS:" Style="{DynamicResource MutedText}" Grid.Row="3" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding DnsServers}" Grid.Row="3" Grid.Column="1" Style="{DynamicResource SecondaryText}" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="MAC:" Style="{DynamicResource MutedText}" Grid.Row="4" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding MacAddress}" Grid.Row="4" Grid.Column="1" Style="{DynamicResource SecondaryText}" Margin="0,4,0,0"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </StackPanel>
+</UserControl>

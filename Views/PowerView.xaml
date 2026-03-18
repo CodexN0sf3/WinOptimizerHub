@@ -1,0 +1,119 @@
+<UserControl x:Class="WinOptimizerHub.Views.PowerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel Margin="24">
+        <TextBlock Style="{DynamicResource HeadingText}" Text="Power &amp; System" Margin="0,0,0,4"/>
+        <TextBlock Style="{DynamicResource SecondaryText}" Text="System power and session management commands" Margin="0,0,0,20"/>
+
+        <!-- Power Actions -->
+        <Border Style="{DynamicResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Power" Style="{DynamicResource SubheadingText}" Margin="0,0,0,16"/>
+                <UniformGrid Rows="1" Columns="4">
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,4,0" Click="PowerShutdown_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE7E8;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#EF4444"/>
+                            <TextBlock Text="Shutdown" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Turn off computer" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,4,0" Click="PowerRestart_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE72C;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#F59E0B"/>
+                            <TextBlock Text="Restart" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Reboot Windows" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,4,0" Click="PowerSleep_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE708;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#3B82F6"/>
+                            <TextBlock Text="Sleep" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Suspend to RAM" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,0,0" Click="PowerHibernate_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE945;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#8B5CF6"/>
+                            <TextBlock Text="Hibernate" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Save session to disk" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+
+        <!-- Session Actions -->
+        <Border Style="{DynamicResource Card}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="Session" Style="{DynamicResource SubheadingText}" Margin="0,0,0,16"/>
+                <UniformGrid Rows="1" Columns="4">
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,4,0" Click="PowerLock_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE72E;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#22C55E"/>
+                            <TextBlock Text="Lock" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Lock workstation" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,4,0" Click="PowerSignOut_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE8FB;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#F59E0B"/>
+                            <TextBlock Text="Sign Out" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Log off current user" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,4,0" Click="PowerSwitchUser_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE7EE;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#3B82F6"/>
+                            <TextBlock Text="Switch User" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Change user account" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,0,0" Click="PowerRestartExplorer_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xEC50;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#8B5CF6"/>
+                            <TextBlock Text="Restart Explorer" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Kills &amp; restarts shell" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+
+        <!-- Advanced -->
+        <Border Style="{DynamicResource Card}">
+            <StackPanel>
+                <TextBlock Text="Advanced" Style="{DynamicResource SubheadingText}" Margin="0,0,0,16"/>
+                <UniformGrid Rows="1" Columns="4">
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="0,0,4,0" Click="PowerFlushDns_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE968;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#22C55E"/>
+                            <TextBlock Text="Flush DNS" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Clear DNS resolver cache" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,4,0" Click="PowerClearTemp_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE74D;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#EF4444"/>
+                            <TextBlock Text="Clear Temp" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Delete %TEMP% files" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,4,0" Click="PowerOpenBackupFolder_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE838;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#F59E0B"/>
+                            <TextBlock Text="Open Backup Folder" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="WinOptimizerHub_Data" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{DynamicResource SecondaryButton}" Margin="4,0,0,0" Click="PowerOpenLogsFolder_Click">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE9F9;" FontFamily="{DynamicResource IconFont}" FontSize="28" HorizontalAlignment="Center" Foreground="#3B82F6"/>
+                            <TextBlock Text="Open Logs Folder" FontSize="12" Margin="0,8,0,2" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="View app.log" Style="{DynamicResource MutedText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

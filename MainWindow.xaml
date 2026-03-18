@@ -1,0 +1,700 @@
+<Window x:Class="WinOptimizerHub.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:WinOptimizerHub.Converters"
+        xmlns:models="clr-namespace:WinOptimizerHub.Models"
+        xmlns:views="clr-namespace:WinOptimizerHub.Views"
+        xmlns:vm="clr-namespace:WinOptimizerHub.ViewModels"
+        Title="WinOptimizerHub" Height="780" Width="1280"
+        MinHeight="600" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        FontFamily="{DynamicResource PrimaryFont}"
+        Icon="/Assets/app.ico">
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolVis"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InvBoolVis"/>
+        <converters:InverseBoolConverter x:Key="InvBool"/>
+        <converters:FileSizeConverter x:Key="FileSize"/>
+        <converters:StringToColorBrushConverter x:Key="StringBrush"/>
+        <converters:EqualityToVisibilityConverter x:Key="EqVis"/>
+        <converters:PercentToHeightConverter x:Key="PercentToHeight"/>
+
+        <!-- ── View → ViewModel DataTemplates ───────────────────────── -->
+        <DataTemplate DataType="{x:Type vm:MainViewModel}">
+            <views:DashboardView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CleanupViewModel}">
+            <views:CleanupView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BrowserViewModel}">
+            <views:BrowserView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RegistryViewModel}">
+            <views:RegistryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StartupViewModel}">
+            <views:StartupView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ServicesViewModel}">
+            <views:ServicesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DiskViewModel}">
+            <views:DiskView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RamViewModel}">
+            <views:RamView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:NetworkViewModel}">
+            <views:NetworkView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SystemToolsViewModel}">
+            <views:SystemToolsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TelemetryViewModel}">
+            <views:TelemetryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SSDViewModel}">
+            <views:SSDView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PrivacyViewModel}">
+            <views:PrivacyView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RecycleViewModel}">
+            <views:RecycleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EventLogsViewModel}">
+            <views:EventLogsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RestorePointsViewModel}">
+            <views:RestorePointsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DuplicatesViewModel}">
+            <views:DuplicatesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UninstallViewModel}">
+            <views:UninstallView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WinSxSViewModel}">
+            <views:WinSxSView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TaskSchedulerViewModel}">
+            <views:TaskSchedulerView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:FontCacheViewModel}">
+            <views:FontCacheView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PowerViewModel}">
+            <views:PowerView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Border CornerRadius="12" ClipToBounds="True">
+        <Border.Effect>
+            <DropShadowEffect Color="#40000000" Direction="270" ShadowDepth="8" BlurRadius="24" Opacity="0.5"/>
+        </Border.Effect>
+        <Grid Background="{DynamicResource BgPrimaryBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="28"/>
+            </Grid.RowDefinitions>
+
+            <!-- ═══════════════════════════════════
+                 TITLE BAR
+            ═══════════════════════════════════ -->
+            <Border Grid.Row="0" Background="{DynamicResource BgSidebarBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Margin="16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="32" Height="32" CornerRadius="6"
+                                Background="Transparent" Margin="0,0,20,0">
+                            <Image Source="/Assets/shield.png" 
+       Width="32" Height="32" 
+       HorizontalAlignment="Center" VerticalAlignment="Center"
+       RenderOptions.BitmapScalingMode="HighQuality"
+       ToolTipService.InitialShowDelay="0"
+       ToolTipService.Placement="Bottom">
+
+                                <Image.ToolTip>
+                                    <ToolTip Background="Transparent" BorderThickness="0" HasDropShadow="True">
+                                        <Image Source="/Assets/shield.png" 
+                       Width="200" Height="200" 
+                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    </ToolTip>
+                                </Image.ToolTip>
+
+                            </Image>
+                        </Border>
+
+                        <TextBlock Text="WinOptimizerHub" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Mini stats -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border Background="{DynamicResource BgCardBrush}" CornerRadius="6"
+                                Padding="8,4" Margin="4,0"
+                                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE821;" FontFamily="{DynamicResource IconFont}"
+                                           FontSize="11" Foreground="{DynamicResource AccentBrush}" Margin="0,0,5,0"/>
+                                <TextBlock x:Name="TitleBarCpu"
+                                           Text="{Binding CpuPercent, StringFormat='CPU {0:F0}%'}"
+                                           FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource BgCardBrush}" CornerRadius="6"
+                                Padding="8,4" Margin="4,0"
+                                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE950;" FontFamily="{DynamicResource IconFont}"
+                                           FontSize="11" Foreground="#8B5CF6" Margin="0,0,5,0"/>
+                                <TextBlock x:Name="TitleBarRam"
+                                           Text="{Binding RamUsedGb, StringFormat='RAM {0:F1}GB'}"
+                                           FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource BgCardBrush}" CornerRadius="6"
+                                Padding="8,4" Margin="4,0"
+                                BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xEDA2;" FontFamily="{DynamicResource IconFont}"
+                                           FontSize="11" Foreground="#22C55E" Margin="0,0,5,0"/>
+                                <TextBlock x:Name="TitleBarUptime"
+                                           Text="{Binding UptimeDisplay, StringFormat='Up: {0}'}"
+                                           FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,16,0" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE793;" FontFamily="{DynamicResource IconFont}" FontSize="13"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <ToggleButton x:Name="ThemeToggle" Style="{DynamicResource ThemeToggleButton}"
+                                          IsChecked="True"
+                                          Checked="ThemeToggle_Changed" Unchecked="ThemeToggle_Changed"/>
+                            <TextBlock Text="&#xE708;" FontFamily="{DynamicResource IconFont}" FontSize="13"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       VerticalAlignment="Center" Margin="6,0,0,0"/>
+                        </StackPanel>
+                        <Button Style="{DynamicResource GhostButton}" Padding="10,6" Click="MinimizeWindow_Click">
+                            <TextBlock Text="&#xE921;" FontFamily="{DynamicResource IconFont}" FontSize="11"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        </Button>
+                        <Button Style="{DynamicResource GhostButton}" Padding="10,6" Click="MaximizeWindow_Click">
+                            <TextBlock x:Name="MaxRestoreIcon" Text="&#xE922;" FontFamily="{DynamicResource IconFont}"
+                                       FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        </Button>
+                        <Button Style="{DynamicResource GhostButton}" Padding="10,6" Click="CloseWindow_Click">
+                            <TextBlock Text="&#xE8BB;" FontFamily="{DynamicResource IconFont}" FontSize="11"
+                                       Foreground="{DynamicResource DangerBrush}"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ═══════════════════════════════════
+                 BODY
+            ═══════════════════════════════════ -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ── SIDEBAR ───────────────────── -->
+                <Border Grid.Column="0" Background="{DynamicResource BgSidebarBrush}"
+                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource ModernScrollViewer}">
+                        <StackPanel Margin="8,8,8,16">
+                            <TextBlock Text="OVERVIEW" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMutedBrush}"
+                                       Margin="12,8,0,6"/>
+
+                            <RadioButton x:Name="NavDashboard" Style="{DynamicResource NavItem}"
+                                         IsChecked="True" Click="NavItem_Click" Tag="Dashboard">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE80F;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Dashboard" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <TextBlock Text="CLEANUP" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMutedBrush}"
+                                       Margin="12,16,0,6"/>
+
+                            <RadioButton x:Name="NavCleanup" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Cleanup">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE74D;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Junk Cleaner" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavBrowser" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Browser">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE774;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Browser Cache" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavPrivacy" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Privacy">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE72E;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Privacy Cleaner" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavRecycle" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Recycle">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE74D;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Recycle Bin" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <TextBlock Text="SYSTEM" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMutedBrush}"
+                                       Margin="12,16,0,6"/>
+
+                            <RadioButton x:Name="NavRegistry" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Registry">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE805;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Registry Cleaner" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavStartup" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Startup">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xF5B0;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Startup Manager" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavServices" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Services">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE90F;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Service Optimizer" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavEventLogs" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="EventLogs">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE9D9;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Event Logs" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavRestorePoints" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="RestorePoints">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE72C;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Restore Points" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <TextBlock Text="DISK &amp; RAM" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMutedBrush}"
+                                       Margin="12,16,0,6"/>
+
+                            <RadioButton x:Name="NavDisk" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Disk">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xEDA2;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Disk Analyzer" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavDuplicates" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Duplicates">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8C8;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Duplicate Finder" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavUninstall" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Uninstall">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8E6;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Uninstall Manager" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavWinSxS" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="WinSxS">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xF133;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="WinSxS Cleanup" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavRAM" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="RAM">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE950;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="RAM Optimizer" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <TextBlock Text="TOOLS" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMutedBrush}"
+                                       Margin="12,16,0,6"/>
+
+                            <RadioButton x:Name="NavNetwork" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Network">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xF785;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Network Tools" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavSystemTools" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="SystemTools">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE90F;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="System Tools" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <TextBlock Text="ADVANCED" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextMutedBrush}"
+                                       Margin="12,16,0,6"/>
+
+                            <RadioButton x:Name="NavTelemetry" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Telemetry">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE72E;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Telemetry Disabler" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavSSD" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="SSD">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xEDA2;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="SSD Tweaker" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavTaskScheduler" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="TaskScheduler">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE787;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Task Scheduler" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton x:Name="NavFontCache" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="FontCache">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8D2;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Font Cache" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton x:Name="NavPower" Style="{DynamicResource NavItem}"
+                                         Click="NavItem_Click" Tag="Power">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE7E8;" FontFamily="{DynamicResource IconFont}"
+                                               FontSize="15" Width="22" TextAlignment="Center"/>
+                                    <TextBlock Text="Power &amp; System" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+
+
+                <!-- ── CONTENT AREA ─────────────────────────── -->
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto"
+                              Style="{DynamicResource ModernScrollViewer}">
+                    <ContentControl Content="{Binding CurrentViewModel}"/>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- ═══════════════════════════════════
+                 IN-APP TOAST STACK  (bottom-right)
+                 Bound to ViewModel.Toast.Toasts
+                 Each ToastItem has: Title, Message, Icon (glyph),
+                 AccentColor (Brush), CardBackground (Brush), HasMessage
+            ═══════════════════════════════════ -->
+            <ItemsControl Grid.Row="1"
+                          ItemsSource="{Binding Toast.Toasts}"
+                          HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                          Margin="0,0,20,20"
+                          Panel.ZIndex="100"
+                          Width="360"
+                          IsHitTestVisible="True">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel VerticalAlignment="Bottom"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,8"
+                                CornerRadius="10"
+                                Background="{Binding CardBackground}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1">
+                            <!-- Slide-up + fade-in on load -->
+                            <Border.RenderTransform>
+                                <TranslateTransform x:Name="ToastTx"/>
+                            </Border.RenderTransform>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="ToastTx"
+                                                Storyboard.TargetProperty="Y"
+                                                From="20" To="0" Duration="0:0:0.22">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation
+                                                Storyboard.TargetProperty="Opacity"
+                                                From="0" To="1" Duration="0:0:0.18"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+
+                            <Grid Margin="14,12,14,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="36"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="22"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Accent icon pill -->
+                                <Border Grid.Column="0" Grid.RowSpan="2"
+                                        Width="32" Height="32" CornerRadius="8"
+                                        Margin="0,0,12,0" VerticalAlignment="Top"
+                                        Background="{DynamicResource BgCardHoverBrush}">
+                                    <TextBlock Text="{Binding Icon}"
+                                               FontFamily="{DynamicResource IconFont}"
+                                               FontSize="16"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="{Binding AccentColor}"/>
+                                </Border>
+
+                                <!-- Title -->
+                                <TextBlock Grid.Column="1" Grid.Row="0"
+                                           Text="{Binding Title}"
+                                           FontWeight="SemiBold" FontSize="13"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"
+                                           TextWrapping="Wrap"
+                                           VerticalAlignment="Center"/>
+
+                                <!-- Message (optional) -->
+                                <TextBlock Grid.Column="1" Grid.Row="1"
+                                           Text="{Binding Message}"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           FontSize="11.5"
+                                           TextWrapping="Wrap"
+                                           Margin="0,4,0,0"
+                                           Visibility="{Binding HasMessage, Converter={StaticResource BoolVis}}"/>
+
+                                <!-- Dismiss × -->
+                                <Button Grid.Column="2" Grid.Row="0"
+                                        VerticalAlignment="Top"
+                                        Width="20" Height="20" Padding="0"
+                                        Style="{DynamicResource SecondaryButton}"
+                                        Tag="{Binding}"
+                                        Click="ToastClose_Click"
+                                        ToolTip="Dismiss">
+                                    <TextBlock Text="&#xE711;"
+                                               FontFamily="{DynamicResource IconFont}"
+                                               FontSize="9"
+                                               Foreground="{DynamicResource TextMutedBrush}"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- ═══════════════════════════════════
+                 STATUS BAR
+            ═══════════════════════════════════ -->
+            <Border Grid.Row="2" Background="{DynamicResource BgSidebarBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0">
+                <Grid Margin="16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="StatusText"
+                               Text="{Binding StatusMessage}"
+                               FontSize="11"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <ProgressBar x:Name="GlobalProgressBar" Style="{DynamicResource ThinProgressBar}"
+                                     Width="120" Margin="0,0,12,0"
+                                     Visibility="{Binding IsBusy, Converter={StaticResource BoolVis}}"
+                                     IsIndeterminate="True"/>
+                        <TextBlock Text="v1.0.0" FontSize="10"
+                                   Foreground="{DynamicResource TextMutedBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <!-- Resize grip — bottom-right corner -->
+                    <ResizeGrip Grid.Column="2"
+                                Width="16" Height="16"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Opacity="0.4"
+                                Cursor="SizeNWSE"/>
+                </Grid>
+            </Border>
+
+            <!-- ═══ IN-APP TOAST OVERLAY ═══════════════════════════════════ -->
+            <!-- Floats over all content, anchored bottom-right, auto-dismisses -->
+            <ItemsControl x:Name="ToastContainer"
+                          Grid.RowSpan="3"
+                          VerticalAlignment="Bottom"
+                          HorizontalAlignment="Right"
+                          Margin="0,0,24,64"
+                          Width="360"
+                          IsHitTestVisible="False"
+                          Panel.ZIndex="9999">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel VerticalAlignment="Bottom"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border x:Name="ToastCard"
+                                Background="{Binding CardBackground}"
+                                BorderBrush="{Binding AccentColor}"
+                                BorderThickness="0,0,0,3"
+                                CornerRadius="10"
+                                Padding="14,12"
+                                Margin="0,0,0,10"
+                                IsHitTestVisible="True">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="16" Opacity="0.4" Direction="270"/>
+                            </Border.Effect>
+                            <Border.RenderTransform>
+                                <TranslateTransform x:Name="SlideTransform"/>
+                            </Border.RenderTransform>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             From="0" To="1" Duration="0:0:0.25"/>
+                                            <DoubleAnimation Storyboard.TargetName="SlideTransform"
+                                                             Storyboard.TargetProperty="X"
+                                                             From="40" To="0" Duration="0:0:0.25">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <!-- Icon -->
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding Icon}"
+                                           FontFamily="{DynamicResource IconFont}"
+                                           FontSize="20"
+                                           Foreground="{Binding AccentColor}"
+                                           VerticalAlignment="Top"
+                                           Margin="0,2,12,0"/>
+                                <!-- Content -->
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Title}"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Message}"
+                                               FontSize="11.5"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               TextWrapping="Wrap"
+                                               Margin="0,3,0,0"
+                                               Visibility="{Binding HasMessage, Converter={StaticResource BoolVis}}"/>
+                                </StackPanel>
+                                <!-- Close button -->
+                                <Button Grid.Column="2"
+                                        Content="✕"
+                                        FontSize="11"
+                                        Width="20" Height="20"
+                                        Padding="0"
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Top"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Foreground="{DynamicResource TextSecondaryBrush}"
+                                        Cursor="Hand"
+                                        Click="Toast_Close_Click"
+                                        Tag="{Binding}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </Grid>
+    </Border>
+</Window>
