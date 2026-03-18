@@ -172,5 +172,7 @@ Built with standard .NET Framework libraries:
 `System.Management` · `Microsoft.Win32.Registry` · `System.ServiceProcess` · `System.Windows.Forms` · `PresentationFramework (WPF)`
 
 ---
-
+## 🤝 Contributing & Code Review
+I am currently a beginner in C# and built this project to deepen my understanding of WPF, multithreading, and Windows OS interactions. 
+Code reviews, pull requests, and suggestions regarding architecture, exception handling, and performance optimizations are highly appreciated!
 *Made with ❤ in C# — feedback and stars are appreciated!*
