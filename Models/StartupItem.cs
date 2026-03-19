@@ -45,6 +45,10 @@ namespace WinOptimizerHub.Models
             "Print Monitors" => 17,
             "Network Providers" => 18,
             "KnownDLLs" => 19,
+            "Protocol Filters" => 20,
+            "Protocol Handlers" => 21,
+            "Font Drivers" => 22,
+            "Office Addins" => 23,
             _ => 99
         };
 
@@ -65,26 +69,30 @@ namespace WinOptimizerHub.Models
         }
         public string CategoryIcon => Category switch
         {
-            "Run" => "\uE768",  // play/run
-            "RunOnce" => "\uE72C",  // refresh/once
-            "Startup Folder" => "\uE8B7",  // folder open
-            "Alternate Shell" => "\uE756",  // command prompt
-            "Installed Components" => "\uE9F5",  // components
-            "Explorer" => "\uEC50",  // folder/explorer
-            "Internet Explorer" => "\uE774",  // globe
-            "Scheduled Tasks" => "\uE823",  // calendar
-            "Services" => "\uECAA",  // settings gear
-            "Drivers" => "\uE9D9",  // chip/driver
-            "Image Hijacks" => "\uE7BA",  // warning
+            "Run" => "\uE768",
+            "RunOnce" => "\uE72C",
+            "Startup Folder" => "\uE8B7",
+            "Alternate Shell" => "\uE756",
+            "Installed Components" => "\uE9F5",
+            "Explorer" => "\uEC50",
+            "Internet Explorer" => "\uE774",
+            "Scheduled Tasks" => "\uE823",
+            "Services" => "\uECAA",
+            "Drivers" => "\uE9D9",
+            "Image Hijacks" => "\uE7BA",
             "AppInit" => "\uECAA",
-            "Winlogon" => "\uE8A5",  // person/logon
+            "Winlogon" => "\uE8A5",
             "Winlogon Notify" => "\uE8A5",
-            "Boot Execute" => "\uEDAB",  // power
-            "LSA Providers" => "\uE8D7",  // lock
-            "Winsock Providers" => "\uE968",  // network
-            "Print Monitors" => "\uE749",  // printer
-            "Network Providers" => "\uF6FA",  // network share
-            "KnownDLLs" => "\uE8F4",  // library
+            "Boot Execute" => "\uEDAB",
+            "LSA Providers" => "\uE8D7",
+            "Winsock Providers" => "\uE968",
+            "Print Monitors" => "\uE749",
+            "Network Providers" => "\uF6FA",
+            "KnownDLLs" => "\uE8F4",
+            "Protocol Filters" => "\uE71B",   // filter
+            "Protocol Handlers" => "\uE71C",  // link/handler
+            "Font Drivers" => "\uE8D2",       // font
+            "Office Addins" => "\uE82D",      // office/document
             _ => "\uE9F5",
         };
         public string ImpactColor => ImpactLevel switch
