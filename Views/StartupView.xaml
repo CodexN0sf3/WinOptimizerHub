@@ -42,6 +42,7 @@
                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
                           MaxHeight="540"
                           SelectionChanged="StartupList_SelectionChanged"
+                          ScrollViewer.ScrollChanged="StartupList_ScrollChanged"
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                           VirtualizingPanel.VirtualizationMode="Recycling"
@@ -145,9 +146,9 @@
                                             <Image Source="{Binding IconSource}" Width="18" Height="18"
                                                    Margin="0,0,6,0" RenderOptions.BitmapScalingMode="HighQuality"
                                                    VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding FileName}" FontWeight="SemiBold" FontSize="12"
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"
                                                        Foreground="{DynamicResource TextPrimaryBrush}"
-                                                       VerticalAlignment="Center" ToolTip="{Binding Command}"/>
+                                                       VerticalAlignment="Center" ToolTip="{Binding FileName}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
