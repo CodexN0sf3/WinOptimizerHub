@@ -351,7 +351,7 @@ namespace WinOptimizerHub.Services
                 if (sc.Status == ServiceControllerStatus.Running)
                     sc.Stop();
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private static int GetRegDword(string subKey, string valueName)

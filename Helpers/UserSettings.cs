@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -51,7 +51,7 @@ namespace WinOptimizerHub.Helpers
                     switch (key)
                     {
                         case "IsDarkTheme": s.IsDarkTheme = val == "true"; break;
-                        //case "LastPanel": s.LastPanel = val; break;
+
                         case "WindowMaximized": s.WindowMaximized = val == "true"; break;
                         case "CleaningMode": s.CleaningMode = val; break;
                         case "WindowWidth":
@@ -91,7 +91,7 @@ namespace WinOptimizerHub.Helpers
 
                     var sb = new StringBuilder();
                     sb.AppendLine($"IsDarkTheme={IsDarkTheme.ToString().ToLower()}");
-                    //sb.AppendLine($"LastPanel={LastPanel}");
+
                     sb.AppendLine($"WindowMaximized={WindowMaximized.ToString().ToLower()}");
                     sb.AppendLine($"WindowWidth={WindowWidth.ToString(CultureInfo.InvariantCulture)}");
                     sb.AppendLine($"WindowHeight={WindowHeight.ToString(CultureInfo.InvariantCulture)}");

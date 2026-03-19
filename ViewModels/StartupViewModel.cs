@@ -107,6 +107,22 @@ namespace WinOptimizerHub.ViewModels
             if (parameter is not StartupItem item) return;
 
             bool desiredState = item.IsEnabled;
+
+            if (StartupManagerService.IsDangerousCategory(item))
+            {
+                string action = desiredState ? "enable" : "disable";
+                if (!DialogService.ConfirmDanger(
+                    $"⚠ System-Critical Entry — {(desiredState ? "Enable" : "Disable")}",
+                    $"You are about to {action}:\n'{item.Name}'\n\n"
+                  + StartupManagerService.GetDangerWarning(item),
+                    desiredState ? "Enable Anyway" : "Disable Anyway",
+                    "Cancel"))
+                {
+                    item.IsEnabled = !desiredState;
+                    return;
+                }
+            }
+
             var (ok, error) = await _svc.SetStartupItemEnabledAsync(item, desiredState);
 
             if (!ok)
@@ -137,6 +153,18 @@ namespace WinOptimizerHub.ViewModels
 
         private async Task SetEnabledAsync(StartupItem item, bool enable)
         {
+            if (StartupManagerService.IsDangerousCategory(item))
+            {
+                string action = enable ? "enable" : "disable";
+                if (!DialogService.ConfirmDanger(
+                    $"⚠ System-Critical Entry — {(enable ? "Enable" : "Disable")}",
+                    $"You are about to {action}:\n'{item.Name}'\n\n"
+                  + StartupManagerService.GetDangerWarning(item),
+                    enable ? "Enable Anyway" : "Disable Anyway",
+                    "Cancel"))
+                    return;
+            }
+
             var (ok, error) = await _svc.SetStartupItemEnabledAsync(item, enable);
             if (!ok)
                 _main.Toast.ShowError("Startup Manager", $"Could not {(enable ? "enable" : "disable")} '{item.Name}'. {error}");
@@ -165,19 +193,38 @@ namespace WinOptimizerHub.ViewModels
         {
             if (SelectedItem == null) return;
 
-            if (!DialogService.ConfirmWarning(
-                    "Confirm Remove",
+            if (StartupManagerService.IsDangerousCategory(SelectedItem))
+            {
+                if (!DialogService.ConfirmWarning(
+                    "Confirm Remove — Critical Entry",
                     $"Remove '{SelectedItem.Name}' from startup?\n\n"
                   + "This removes the startup entry only — the program itself is not deleted.",
                     "Remove", "Cancel")) return;
 
-            var (ok, error) = await _svc.DeleteStartupItemAsync(SelectedItem);
-            if (!ok)
-                _main.Toast.ShowError("Startup Manager", $"Could not remove '{SelectedItem.Name}' from startup. {error}");
+                if (!DialogService.ConfirmDanger(
+                    "⚠ Final Warning — System-Critical",
+                    StartupManagerService.GetDangerWarning(SelectedItem),
+                    "Delete Anyway", "Cancel")) return;
+            }
             else
             {
-                Log($"Startup entry deleted: '{SelectedItem.Name}'");
-                await LoadAsync();
+                if (!DialogService.ConfirmWarning(
+                    "Confirm Remove",
+                    $"Remove '{SelectedItem.Name}' from startup?\n\n"
+                  + "This removes the startup entry only — the program itself is not deleted.",
+                    "Remove", "Cancel")) return;
+            }
+
+            var itemToRemove = SelectedItem;
+            var (ok, error) = await _svc.DeleteStartupItemAsync(itemToRemove);
+            if (!ok)
+                _main.Toast.ShowError("Startup Manager", $"Could not remove '{itemToRemove.Name}' from startup. {error}");
+            else
+            {
+                Log($"Startup entry deleted: '{itemToRemove.Name}'");
+                Items.Remove(itemToRemove);
+                SelectedItem = null;
+                OnPropertyChanged(nameof(ItemCount));
             }
         }
 

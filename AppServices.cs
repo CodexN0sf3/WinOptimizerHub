@@ -1,4 +1,4 @@
-﻿using WinOptimizerHub.Services;
+using WinOptimizerHub.Services;
 
 namespace WinOptimizerHub
 {
@@ -27,6 +27,6 @@ namespace WinOptimizerHub
         public SSDTweakerService SSD { get; } = new SSDTweakerService();
         public TaskSchedulerService TaskScheduler { get; } = new TaskSchedulerService();
         public FontCacheCleanerService FontCache { get; } = new FontCacheCleanerService();
-        //public ExportService Export { get; } = new ExportService();
+
     }
 }

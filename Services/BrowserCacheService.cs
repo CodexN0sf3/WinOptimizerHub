@@ -112,11 +112,7 @@ namespace WinOptimizerHub.Services
         {
             if (IsValidChromiumRoot(dir))
             {
-                /*Use this only if you want to delete cache from apps like: webview, ebwebview, olk ,Microsoft Outlook (new version), teams, slack, Slack,discord, spotify,  code, Visual Studio Code, whatsapp, etc*/
 
-                /*string name = GuessNameFromPath(dir);*/
-                /*BrowserCategory category = BrowserCategory.Browser;*/
-                /*ScanChromiumProfiles(results, name, dir, seenPaths, category);*/
             }
             else if (IsValidGeckoRoot(dir))
             {

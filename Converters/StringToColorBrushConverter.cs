@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -17,7 +17,7 @@ namespace WinOptimizerHub.Converters
                     var color = (Color)ColorConverter.ConvertFromString(hexColor);
                     return new SolidColorBrush(color);
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
             return new SolidColorBrush(Colors.Gray);
         }

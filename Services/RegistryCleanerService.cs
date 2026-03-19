@@ -506,7 +506,7 @@ namespace WinOptimizerHub.Services
                     if (ct.IsCancellationRequested) return;
                     string fontFile = k.GetValue(valueName)?.ToString() ?? "";
                     if (string.IsNullOrEmpty(fontFile)) continue;
-                    // Relative path → look in Fonts folder
+
                     string fullPath = fontFile.Contains("\\") ? fontFile
                                     : Path.Combine(fontsDir, fontFile);
                     fullPath = Environment.ExpandEnvironmentVariables(fullPath);
@@ -555,7 +555,7 @@ namespace WinOptimizerHub.Services
                                 IsSelected = false
                             });
                     }
-                    catch { }
+                    catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 }
             }
             catch (Exception ex) { AppLogger.Log(ex, nameof(ScanOrphanedFileAssociations)); }
@@ -594,7 +594,7 @@ namespace WinOptimizerHub.Services
                                 IsSelected = true
                             });
                     }
-                    catch { }
+                    catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 }
             }
         }
@@ -661,7 +661,7 @@ namespace WinOptimizerHub.Services
                             count++;
                         }
                     }
-                    catch { }
+                    catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 }
             }
             catch (Exception ex) { AppLogger.Log(ex, nameof(ScanOrphanedComObjects)); }

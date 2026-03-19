@@ -27,7 +27,7 @@ namespace WinOptimizerHub.Views
         private void OutputLines_Changed(object sender, NotifyCollectionChangedEventArgs e)
         {
             try { Dispatcher.InvokeAsync(() => WinSxSScroller.ScrollToBottom()); }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
     }
 }

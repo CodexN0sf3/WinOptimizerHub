@@ -13,7 +13,7 @@ namespace WinOptimizerHub.Helpers
 
         private static readonly string LogPath = Path.Combine(AppDataRoot, "Logs", "app.log");
         private static readonly object _lock = new object();
-        private const long MaxLogSize = 2 * 1024 * 1024; // 2 MB
+        private const long MaxLogSize = 2 * 1024 * 1024;
 
         public static string BackupRoot => Path.Combine(AppDataRoot, "Backups");
 
@@ -24,7 +24,7 @@ namespace WinOptimizerHub.Helpers
                 Directory.CreateDirectory(Path.GetDirectoryName(LogPath)!);
                 Directory.CreateDirectory(BackupRoot);
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         public static void Log(Exception ex, string context = null)
@@ -57,7 +57,7 @@ namespace WinOptimizerHub.Helpers
                     File.AppendAllText(LogPath, line + Environment.NewLine, Encoding.UTF8);
                 }
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private static string BuildExceptionMessage(Exception ex)
@@ -97,7 +97,7 @@ namespace WinOptimizerHub.Helpers
                 if (File.Exists(backup)) File.Delete(backup);
                 File.Move(LogPath, backup);
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private enum LogLevel { Info, Warning, Error }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -25,10 +25,8 @@ namespace WinOptimizerHub.Converters
             string[] suf = { "B", "KB", "MB", "GB", "TB" };
             if (bytes <= 0) return "0 B";
 
-            // Calculăm magnitudinea (B, KB, MB etc.)
             int mag = (int)Math.Log(bytes, 1024);
 
-            // Ajustăm dimensiunea pentru unitatea de măsură corespunzătoare
             decimal adjustedSize = (decimal)bytes / (decimal)Math.Pow(1024, mag);
 
             return $"{adjustedSize:n2} {suf[mag]}";

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -81,7 +81,7 @@ namespace WinOptimizerHub.Helpers
                     }
                 }
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
 
             return GetFallbackByExtension(path);
         }
@@ -129,7 +129,7 @@ namespace WinOptimizerHub.Helpers
                     }
                 }
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
 
             return null;
         }

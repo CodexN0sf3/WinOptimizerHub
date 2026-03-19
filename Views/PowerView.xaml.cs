@@ -89,7 +89,7 @@ namespace WinOptimizerHub.Views
                 string tmp = System.IO.Path.GetTempPath();
                 int deleted = 0;
                 foreach (var f in System.IO.Directory.GetFiles(tmp))
-                    try { System.IO.File.Delete(f); deleted++; } catch { }
+                    try { System.IO.File.Delete(f); deleted++; } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 MessageBox.Show($"Cleared {deleted} temp files.", "WinOptimizerHub", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex) { AppLogger.Log(ex, nameof(PowerClearTemp_Click)); }

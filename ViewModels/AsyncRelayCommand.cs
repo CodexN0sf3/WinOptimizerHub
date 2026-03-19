@@ -53,7 +53,7 @@ namespace WinOptimizerHub.ViewModels
             }
             catch (OperationCanceledException)
             {
-                /*Expected — user cancelled, no log needed*/
+                AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger));
             }
             catch (Exception ex)
             {

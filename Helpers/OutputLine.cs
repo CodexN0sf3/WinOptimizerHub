@@ -1,4 +1,4 @@
-﻿namespace WinOptimizerHub.Helpers
+namespace WinOptimizerHub.Helpers
 {
     public enum LineType { Info, Step, Success, Warning, Error }
 

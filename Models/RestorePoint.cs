@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using WinOptimizerHub.Helpers;
 
 namespace WinOptimizerHub.Models
@@ -17,14 +17,14 @@ namespace WinOptimizerHub.Models
 
         public string TypeDisplay => RestorePointType switch
         {
-            "0" => "Install",       // APPLICATION_INSTALL
-            "1" => "Uninstall",     // APPLICATION_UNINSTALL
-            "10" => "Install",       // DEVICE_DRIVER_INSTALL
-            "12" => "System",        // MODIFY_SETTINGS (shown as "System" in rstrui)
-            "13" => "Undo",          // CANCELLED_OPERATION
-            "14" => "System",        // SYSTEM_CHECKPOINT
-            "15" => "Undo",          // UNDO
-            "16" => "Manual",        // USER_CHECKPOINT (shown as "Manual" in rstrui)
+            "0" => "Install",
+            "1" => "Uninstall",
+            "10" => "Install",
+            "12" => "System",
+            "13" => "Undo",
+            "14" => "System",
+            "15" => "Undo",
+            "16" => "Manual",
             "17" => "Windows Update",
             "18" => "Critical Update",
             _ => string.IsNullOrEmpty(RestorePointType) ? "—" : RestorePointType
@@ -32,11 +32,11 @@ namespace WinOptimizerHub.Models
 
         public string TypeIcon => RestorePointType switch
         {
-            "0" or "1" => "",  // app install/uninstall
-            "10" => "",  // driver
-            "17" or "18" => "", // windows update
-            "16" => "",  // manual/user
-            _ => ""   // generic
+            "0" or "1" => "",
+            "10" => "",
+            "17" or "18" => "",
+            "16" => "",
+            _ => ""
         };
     }
 }

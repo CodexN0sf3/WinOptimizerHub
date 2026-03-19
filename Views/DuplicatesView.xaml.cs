@@ -76,7 +76,7 @@ namespace WinOptimizerHub.Views
                             if (System.IO.Directory.Exists(dir))
                                 System.Diagnostics.Process.Start("explorer.exe", dir);
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     };
                     ctx.Items.Add(miMarkDelete);
                     ctx.Items.Add(miMarkKeep);

@@ -1,4 +1,4 @@
-﻿namespace WinOptimizerHub.Models
+namespace WinOptimizerHub.Models
 {
     public class TelemetryItem : ObservableObject
     {

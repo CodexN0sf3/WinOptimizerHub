@@ -332,7 +332,7 @@ namespace WinOptimizerHub.ViewModels
                 UpdateAllCards();
                 UpdateTotal();
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private void UpdateAllCards()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
@@ -68,7 +68,7 @@ namespace WinOptimizerHub
         private static void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             AppLogger.Log(e.Exception, "UI.UnhandledException");
-            e.Handled = true; // prevent crash
+            e.Handled = true;
 
             if (Current?.MainWindow?.DataContext is ViewModels.MainViewModel vm)
                 vm.Toast.ShowError("Unexpected Error", e.Exception.Message);
@@ -80,7 +80,7 @@ namespace WinOptimizerHub
 
         private static void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            e.SetObserved(); // prevent process crash
+            e.SetObserved();
             foreach (var ex in e.Exception.InnerExceptions)
                 AppLogger.Log(ex, "Task.UnobservedException");
         }

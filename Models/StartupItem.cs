@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Media;
 
@@ -89,10 +89,10 @@ namespace WinOptimizerHub.Models
             "Print Monitors" => "\uE749",
             "Network Providers" => "\uF6FA",
             "KnownDLLs" => "\uE8F4",
-            "Protocol Filters" => "\uE71B",   // filter
-            "Protocol Handlers" => "\uE71C",  // link/handler
-            "Font Drivers" => "\uE8D2",       // font
-            "Office Addins" => "\uE82D",      // office/document
+            "Protocol Filters" => "\uE71B",
+            "Protocol Handlers" => "\uE71C",
+            "Font Drivers" => "\uE8D2",
+            "Office Addins" => "\uE82D",
             _ => "\uE9F5",
         };
         public string ImpactColor => ImpactLevel switch

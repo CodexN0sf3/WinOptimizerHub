@@ -93,7 +93,6 @@ namespace WinOptimizerHub.Services
                             progress?.Report((scanned, hashing,
                                 $"Hashing {hashing}/{candidateFiles}: {fi.Name}"));
 
-                            // Compute full hash only for files that passed both size and quick hash checks
                             string hash = ComputeFullHash(fi.FullName);
                             if (!hashGroups.TryGetValue(hash, out var hList))
                                 hashGroups[hash] = hList = new List<DuplicateFile>();
@@ -169,41 +168,35 @@ namespace WinOptimizerHub.Services
 
         private static readonly string[] SkipFolderFragments = new[]
         {
-            // System
+
             "$Recycle.Bin", "System Volume Information",
             "\\Windows\\", "\\Program Files\\", "\\Program Files (x86)\\",
             "\\ProgramData\\", "\\Recovery\\", "\\Boot\\",
             "AppData\\Local\\Temp", "AppData\\LocalLow",
 
-            // Microsoft Edge & WebView2 — intentionally duplicate assets
             "\\Microsoft\\EdgeWebView\\",
             "\\Microsoft\\Edge\\",
             "\\Microsoft\\EdgeUpdate\\",
             "EBWebView",
 
-            // Claude / Anthropic desktop
             "\\Claude\\",
             "\\Anthropic\\",
             "claude-updater",
 
-            // Visual Studio & VS Code
             "\\Microsoft Visual Studio\\",
             "\\.vs\\",
             "\\VSCode\\",
             "\\.vscode\\",
             "\\Extensions\\",
 
-            // Package managers — tons of intentional duplicates
             "\\.nuget\\",
             "\\node_modules\\",
             "\\.cargo\\",
             "\\.gradle\\",
             "\\.m2\\",
 
-            // Git
             "\\.git\\",
 
-            // Browser caches / profiles
             "\\Google\\Chrome\\",
             "\\BraveSoftware\\",
             "\\Mozilla\\Firefox\\",

@@ -14,7 +14,7 @@ namespace WinOptimizerHub.Services
     {
         private static readonly Dictionary<string, (string rec, string cat, string reason)> ServiceAdvice = new()
         {
-            // ── Telemetry & Diagnostics ───────────────────────────────────
+
             ["DiagTrack"] = ("Disabled", "Telemetry", "Windows telemetry — sends usage data to Microsoft"),
             ["dmwappushservice"] = ("Disabled", "Telemetry", "WAP push routing — used for telemetry and device management"),
             ["diagnosticshub.standardcollector.service"] = ("Manual", "Telemetry", "Diagnostics Hub collector — only needed for VS profiling"),
@@ -23,23 +23,19 @@ namespace WinOptimizerHub.Services
             ["PcaSvc"] = ("Manual", "Telemetry", "Program Compatibility Assistant — safe to Manual"),
             ["DPS"] = ("Manual", "Telemetry", "Diagnostic Policy Service — safe to Manual"),
 
-            // ── Xbox / Gaming ─────────────────────────────────────────────
             ["XblAuthManager"] = ("Manual", "Xbox", "Xbox Live authentication — only needed for Xbox games"),
             ["XblGameSave"] = ("Manual", "Xbox", "Xbox Game Save sync — only needed for Xbox games"),
             ["XboxGipSvc"] = ("Manual", "Xbox", "Xbox accessory management — only needed for Xbox controllers"),
             ["XboxNetApiSvc"] = ("Manual", "Xbox", "Xbox Live network API — only needed for Xbox online features"),
             ["GamingServices"] = ("Manual", "Xbox", "Xbox Gaming Services — needed only for Xbox app or Game Pass"),
 
-            // ── Search & Indexing ────────────────────────────────────────
             ["WSearch"] = ("Manual", "Search", "Windows Search indexer — disable if you don't use Windows Search"),
             ["SharedAccess"] = ("Manual", "Search", "Internet Connection Sharing — disable if not sharing internet"),
 
-            // ── Print ────────────────────────────────────────────────────
             ["Spooler"] = ("Manual", "Print", "Print spooler — set Manual if you have no printer"),
             ["PrintNotify"] = ("Manual", "Print", "Printer notification service — disable if no printer"),
             ["PrintWorkflowUserSvc"] = ("Manual", "Print", "Print workflow user service — only needed with printers"),
 
-            // ── Remote Access ─────────────────────────────────────────────
             ["RemoteRegistry"] = ("Disabled", "Remote", "Remote registry access — security risk, disable unless needed"),
             ["TermService"] = ("Manual", "Remote", "Remote Desktop — set Manual if you never use RDP"),
             ["SessionEnv"] = ("Manual", "Remote", "Remote Desktop Config — set Manual if RDP not used"),
@@ -47,19 +43,16 @@ namespace WinOptimizerHub.Services
             ["RemoteAccess"] = ("Disabled", "Remote", "Routing and Remote Access — disable unless VPN/router"),
             ["RasMan"] = ("Manual", "Remote", "Remote Access Connection Manager — Manual if no VPN"),
 
-            // ── Maps & Location ───────────────────────────────────────────
             ["MapsBroker"] = ("Disabled", "Location", "Downloaded Maps Manager — rarely needed on desktop"),
             ["lfsvc"] = ("Manual", "Location", "Geolocation service — disable if location not needed"),
             ["WMPNetworkSvc"] = ("Manual", "Location", "Windows Media Player network sharing"),
 
-            // ── Performance ───────────────────────────────────────────────
             ["SysMain"] = ("Manual", "Performance", "Superfetch/SysMain — disable on SSD for less disk writes"),
             ["defragsvc"] = ("Manual", "Performance", "Disk Defragmenter — Manual is fine; auto-schedule handles it"),
             ["BITS"] = ("Manual", "Performance", "Background Intelligent Transfer — set Manual to save bandwidth"),
             ["wuauserv"] = ("Manual", "Performance", "Windows Update — keep Manual; disable with care"),
             ["UsoSvc"] = ("Manual", "Performance", "Update Orchestrator — manages Windows Updates"),
 
-            // ── Miscellaneous safe to disable ────────────────────────────
             ["Fax"] = ("Disabled", "Misc", "Fax service — not needed on modern PCs"),
             ["RetailDemo"] = ("Disabled", "Misc", "Retail Demo mode — not needed outside store environments"),
             ["wisvc"] = ("Disabled", "Misc", "Windows Insider Service — disable if not an Insider"),
@@ -79,7 +72,6 @@ namespace WinOptimizerHub.Services
             ["MixedRealityOpenXRSvc"] = ("Disabled", "Misc", "Mixed Reality OpenXR — disable if no VR headset"),
             ["perceptionsimulation"] = ("Disabled", "Misc", "Perception Simulation — only needed for HoloLens dev"),
 
-            // ── Network ───────────────────────────────────────────────────
             ["LanmanServer"] = ("Manual", "Network", "File and Printer Sharing server — Manual if not sharing files"),
             ["FDResPub"] = ("Manual", "Network", "Function Discovery Resource Publication — Manual if not sharing"),
             ["SSDPSRV"] = ("Manual", "Network", "SSDP Discovery (UPnP) — Manual if no UPnP devices"),
@@ -203,7 +195,7 @@ namespace WinOptimizerHub.Services
                 using var key = Registry.LocalMachine.OpenSubKey(
                     $@"SYSTEM\CurrentControlSet\Services\{serviceName}");
                 string desc = key?.GetValue("Description")?.ToString() ?? "";
-                
+
                 if (desc.StartsWith("@")) return string.Empty;
                 return desc;
             }

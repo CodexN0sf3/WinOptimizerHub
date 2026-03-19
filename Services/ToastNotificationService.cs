@@ -33,7 +33,6 @@ namespace WinOptimizerHub.Services
                 (byte)Math.Max(0, c.B / 12 + 8)));
         }
 
-
         public void ShowInfo(string title, string message = null, int timeoutMs = 5000) =>
             Enqueue(new ToastItem
             {
@@ -89,7 +88,7 @@ namespace WinOptimizerHub.Services
                 try
                 {
                     Toasts.Add(item);
-                    
+
                     var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(timeoutMs) };
                     timer.Tick += (_, __) =>
                     {
@@ -108,7 +107,7 @@ namespace WinOptimizerHub.Services
             _dispatcher.BeginInvoke((Action)(() =>
             {
                 try { Toasts.Remove(item); }
-                catch { /* already removed */ }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }));
         }
 
@@ -119,7 +118,7 @@ namespace WinOptimizerHub.Services
                 if (Application.Current?.Resources["BgCardBrush"] is Brush b)
                     return b;
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             return AccentBrush(darkFallback);
         }
 

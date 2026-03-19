@@ -27,7 +27,6 @@ namespace WinOptimizerHub
             Closing += MainWindow_Closing;
         }
 
-        // ── Settings restore ──────────────────────────────────────────────
         private void RestoreWindowState()
         {
             var s = UserSettings.Current;

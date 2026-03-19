@@ -10,7 +10,6 @@ namespace WinOptimizerHub.Services
 {
     public class ExportService
     {
-        // ── Public entry points ───────────────────────────────────────────
 
         public void ExportJunk(IEnumerable<CleanableFolder> folders, string filePath)
         {
@@ -35,8 +34,6 @@ namespace WinOptimizerHub.Services
             else
                 File.WriteAllText(filePath, BuildPrivacyCsv(items), Encoding.UTF8);
         }
-
-        // ── CSV builders ─────────────────────────────────────────────────
 
         private static string BuildJunkCsv(IEnumerable<CleanableFolder> folders)
         {
@@ -64,8 +61,6 @@ namespace WinOptimizerHub.Services
                 sb.AppendLine($"{Csv(p.Category)},{Csv(p.Name)},{Csv(p.Description)},{p.EstimatedSize},{p.IsSelected}");
             return sb.ToString();
         }
-
-        // ── HTML builders ─────────────────────────────────────────────────
 
         private static string BuildJunkHtml(IEnumerable<CleanableFolder> folders)
         {
@@ -154,8 +149,6 @@ namespace WinOptimizerHub.Services
                 </table>");
         }
 
-        // ── HTML shell ────────────────────────────────────────────────────
-
         private static string WrapHtml(string title, string summary, string body)
         {
             return $@"<!DOCTYPE html>
@@ -206,8 +199,6 @@ namespace WinOptimizerHub.Services
 </body>
 </html>";
         }
-
-        // ── Helpers ───────────────────────────────────────────────────────
 
         private static string Csv(string value)
         {

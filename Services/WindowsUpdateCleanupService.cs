@@ -50,7 +50,7 @@ namespace WinOptimizerHub.Services
                                     .Sum(f => { try { return f.Length; } catch { return 0L; } });
                             }
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
 
                     return (size, sb.ToString());
@@ -208,7 +208,6 @@ namespace WinOptimizerHub.Services
 
             return log.ToString();
         }
-
 
         public async Task<(long freed, string info)> CleanUpdateCacheAsync(
             IProgress<string> progress = null, CancellationToken ct = default)

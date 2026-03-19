@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -298,7 +298,7 @@ namespace WinOptimizerHub.Services
                         "IconCache.db"));
                     break;
                 case "Clipboard History":
-                    try { System.Windows.Clipboard.Clear(); } catch { }
+                    try { System.Windows.Clipboard.Clear(); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     SetRegDword(@"SOFTWARE\Microsoft\Clipboard", "EnableClipboardHistory", 0, Registry.CurrentUser);
                     SetRegDword(@"SOFTWARE\Microsoft\Clipboard", "EnableClipboardHistory", 1, Registry.CurrentUser);
                     break;
@@ -390,11 +390,11 @@ namespace WinOptimizerHub.Services
             stack.Push(new DirectoryInfo(path));
             while (stack.Count > 0)
             {
-                var dir = stack.Pop();                
-                try { foreach (var f in dir.GetFiles()) try { size += f.Length; } catch { } }
-                catch { }
+                var dir = stack.Pop();
+                try { foreach (var f in dir.GetFiles()) try { size += f.Length; } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); } }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 try { foreach (var d in dir.GetDirectories()) stack.Push(d); }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
             return size;
         }
@@ -438,9 +438,9 @@ namespace WinOptimizerHub.Services
                 try
                 {
                     foreach (var f in Directory.GetFiles(current))
-                        try { File.Delete(f); } catch { }
+                        try { File.Delete(f); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
 
                 try
                 {
@@ -450,15 +450,15 @@ namespace WinOptimizerHub.Services
                             stack.Push(d);
                     }
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
 
             try
             {
                 foreach (var d in Directory.GetDirectories(path))
-                    try { Directory.Delete(d, true); } catch { }
+                    try { Directory.Delete(d, true); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private static void DeleteFileSafe(string path)
@@ -481,7 +481,7 @@ namespace WinOptimizerHub.Services
                 using var key = hive.OpenSubKey(subKey, writable: true);
                 if (key == null) return;
                 foreach (var v in key.GetValueNames())
-                    try { key.DeleteValue(v); } catch { }
+                    try { key.DeleteValue(v); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
             catch (Exception ex) { AppLogger.Log(ex, nameof(ClearRegKey)); }
         }
@@ -493,7 +493,7 @@ namespace WinOptimizerHub.Services
                 using var key = hive.OpenSubKey(subKey, writable: true);
                 if (key == null) return;
                 foreach (var sub in key.GetSubKeyNames())
-                    try { key.DeleteSubKeyTree(sub); } catch { }
+                    try { key.DeleteSubKeyTree(sub); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
             catch (Exception ex) { AppLogger.Log(ex, nameof(ClearRegSubKeys)); }
         }

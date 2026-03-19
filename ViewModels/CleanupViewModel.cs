@@ -154,8 +154,6 @@ namespace WinOptimizerHub.ViewModels
                 _main.SessionFreedBytes += freed;
                 _main.Toast.ShowCleanComplete("Junk Cleaner", freed);
 
-
-
                 await ScanAsync();
             }
             catch (Exception ex) { AppLogger.Log(ex, nameof(CleanAsync)); }

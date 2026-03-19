@@ -96,7 +96,6 @@ namespace WinOptimizerHub.Services
         {
             var all = new List<CleanableFolder>();
 
-            // SAFE — zero risk, Windows/apps rebuild everything automatically            
             Add(all, "User Temp Files", Temp, "Temp Files", CleaningMode.Safe);
             Add(all, "Windows Temp", P(Win, "Temp"), "Temp Files", CleaningMode.Safe);
             Add(all, "LocalAppData Temp", P(Local, "Temp"), "Temp Files", CleaningMode.Safe);
@@ -134,7 +133,6 @@ namespace WinOptimizerHub.Services
 
             AddPattern(all, "CBS Log", P(Win, "Logs", "CBS"), new[] { "*.log" }, "Logs", CleaningMode.Safe);
 
-            // NORMAL — safe but may slightly slow first app launch after clean
             Add(all, "Prefetch Files", P(Win, "Prefetch"), "System", CleaningMode.Normal);
 
             Add(all, "Windows Update Logs", P(Win, "Logs", "WindowsUpdate"), "Logs", CleaningMode.Normal);
@@ -175,7 +173,6 @@ namespace WinOptimizerHub.Services
             Add(all, "Windows Installer Patch Cache",
                 P(Win, "Installer", "$PatchCache$"), "Windows", CleaningMode.Normal, selected: false);
 
-            // AGGRESSIVE — large space savings, minor caveats noted
             AddTree(all, "Windows.old", P(SysDrv, "Windows.old"), "Old Windows", CleaningMode.Aggressive);
             AddTree(all, "Windows Upgrade Temp (~BT)", P(SysDrv, "$WINDOWS.~BT"), "Old Windows", CleaningMode.Aggressive);
             AddTree(all, "Windows Upgrade Temp (~WS)", P(SysDrv, "$WINDOWS.~WS"), "Old Windows", CleaningMode.Aggressive);
@@ -669,12 +666,11 @@ namespace WinOptimizerHub.Services
             private static readonly Dictionary<string, string> _map =
                 new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    // Temp Files
+
                     ["User Temp Files"] = "Temporary files created by applications in your user profile. Apps recreate them as needed. Safe to delete anytime.",
                     ["Windows Temp"] = "Temporary files created by Windows and installers in the system Temp folder. Can accumulate GB over time.",
                     ["LocalAppData Temp"] = "Per-user temporary files stored in AppData\\Local\\Temp. Same as %TEMP% for most apps.",
 
-                    // Cache
                     ["Thumbnail Cache"] = "thumbcache_*.db files used by Windows Explorer to display image/video previews. Deleted files leave orphan entries. Explorer rebuilds this automatically.",
                     ["Font Cache Files"] = "Binary cache of loaded fonts stored by the FontCache service. Rebuilt on next Windows startup. Speeds up font rendering.",
                     ["Font Cache (System)"] = "System-level font cache used by the LocalService account. Same as user font cache but for system processes.",
@@ -684,35 +680,28 @@ namespace WinOptimizerHub.Services
                     ["AMD DX Cache"] = "DirectX shader cache maintained by AMD drivers. Rebuilt automatically on next game/app launch.",
                     ["Intel Shader Cache"] = "Shader cache maintained by Intel integrated graphics drivers. Rebuilt automatically.",
 
-                    // Crash Reports
                     ["WER User Report Archive"] = "Windows Error Reporting — crash reports that were already sent to Microsoft. Contains minidumps and diagnostic data. No functional value after submission.",
                     ["WER User Report Queue"] = "Windows Error Reporting — crash reports queued for upload but not yet sent. Deleting prevents upload; no impact on system stability.",
                     ["Memory Dump Files"] = "*.dmp files created when Windows or an app crashes. Useful for advanced debugging only. Can be several GB. Safe to delete.",
                     ["User Crash Dumps"] = "Application crash dump files stored in AppData\\Local\\CrashDumps. Created when apps crash and a debugger is attached.",
 
-                    // Windows Update
                     ["Windows Update Downloads"] = "Downloaded Windows Update packages waiting to be installed, or already installed. Windows re-downloads if needed. Can free several GB.",
                     ["Delivery Optimization Cache"] = "Files downloaded by Delivery Optimization (Windows Update peer-to-peer). Used to share updates with other PCs on your network. Rebuilt automatically.",
 
-                    // Logs
                     ["CBS Log"] = "Component-Based Servicing log — records Windows component install/update activity. Used for diagnosing update failures. Safe to delete.",
                     ["Windows Update Logs"] = "Logs from Windows Update service. Used to diagnose update problems. No functional impact when deleted.",
                     ["Windows DISM Logs"] = "Deployment Image Servicing and Management logs. Useful only when troubleshooting Windows image corruption.",
                     ["Windows Setup Logs"] = "Logs from Windows installation or major feature updates (stored in Windows\\Panther). Safe to delete after OS is stable.",
                     ["Setup Root Logs"] = "setupact.log and setuperr.log in the Windows root — created during Windows setup and feature updates. Safe to delete.",
 
-                    // Privacy
                     ["Recent Documents MRU"] = "Most Recently Used list — shortcuts to recently opened files shown in File Explorer and Office apps. Deleting clears your recent file history.",
 
-                    // Recycle Bin
                     ["Recycle Bin (C:)"] = "Files you deleted and moved to the Recycle Bin on drive C:. Only your user account's bin is cleared — other users are not affected.",
                     ["Recycle Bin (D:)"] = "Files you deleted and moved to the Recycle Bin on drive D:. Only your user account's bin is cleared.",
                     ["Recycle Bin (E:)"] = "Files you deleted and moved to the Recycle Bin on drive E:. Only your user account's bin is cleared.",
 
-                    // System
                     ["Prefetch Files"] = "Windows preloads frequently used programs at startup to speed up launch times. Deleting causes a one-time slowdown; Windows rebuilds within ~10 minutes of normal use.",
 
-                    // Dev Tools
                     ["Visual Studio Cache"] = "IntelliSense databases, component model caches and project caches created by Visual Studio. Rebuilt on next VS startup (may take a few minutes).",
                     ["VS Code Cache"] = "UI and extension render cache used by Visual Studio Code (Electron-based). Rebuilt on next VS Code launch.",
                     ["VS Code CachedData"] = "Compiled JavaScript V8 bytecode cache for VS Code's core scripts. Speeds up startup; rebuilt automatically.",
@@ -724,7 +713,6 @@ namespace WinOptimizerHub.Services
                     ["NuGet Package Cache"] = "Downloaded NuGet packages cached locally. Visual Studio/dotnet CLI re-downloads from NuGet.org if missing.",
                     ["Gradle Caches"] = "Downloaded dependencies and compiled scripts cached by Gradle (Android/Java build tool). Can be very large. Gradle re-downloads on next build.",
 
-                    // App Cache
                     ["Microsoft Teams Cache"] = "UI cache, images and assets cached by Microsoft Teams. Teams rebuilds on next launch. Does not affect messages, files or settings.",
                     ["Microsoft Teams Media"] = "Media stack files used by Teams for calls and meetings. Rebuilt automatically. Does not affect contacts or call history.",
                     ["Slack Cache"] = "Images, avatars and UI assets cached by the Slack desktop app. Rebuilt on next Slack launch.",
@@ -739,17 +727,14 @@ namespace WinOptimizerHub.Services
                     ["Office Telemetry"] = "Usage and performance telemetry data collected by Microsoft Office. Sent to Microsoft periodically. Deleting has no effect on Office functionality.",
                     ["Steam Shader Cache"] = "Pre-compiled Vulkan/DirectX shader cache for Steam games. Rebuilt by Steam on first game launch after deletion — may cause a one-time stutter.",
 
-                    // Windows
                     ["Windows Installer Patch Cache"] = "$PatchCache$ stores copies of patched files for rollback. Deleting prevents patch rollback but saves 100MB-2GB. Windows re-downloads if needed.",
 
-                    // Old Windows
                     ["Windows.old"] = "Previous Windows installation kept by the upgrade process. Allows rolling back to the previous OS version. Windows auto-deletes it after 30 days. Can free 10-30 GB.",
                     ["Windows Upgrade Temp (~BT)"] = "$WINDOWS.~BT contains temporary files used during the Windows upgrade process. Safe to delete after upgrade is complete.",
                     ["Windows Upgrade Temp (~WS)"] = "$WINDOWS.~WS is another temporary folder created during Windows upgrade. Safe to delete after upgrade completes.",
                     ["Downloaded Program Files"] = "Legacy folder for ActiveX controls and Java applets downloaded by Internet Explorer. Empty on virtually all modern systems.",
                     ["Windows Upgrade Logs"] = "Windows\\Panther contains setup and upgrade log files from the last Windows installation or feature update.",
 
-                    // Browser Cache (dynamic names)
                     ["Chrome Cache"] = "Web content cached by Google Chrome (HTML, CSS, images, scripts). Deleting clears browsing cache — pages may load slightly slower on first visit.",
                     ["Edge Cache"] = "Web content cached by Microsoft Edge. Rebuilt as you browse. Does not affect bookmarks, passwords or extensions.",
                     ["Brave Cache"] = "Web content cached by Brave Browser. Does not affect bookmarks, passwords or extensions.",

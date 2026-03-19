@@ -19,11 +19,18 @@ namespace WinOptimizerHub.Services.Startup
                     Arguments = "/Query /FO CSV /V /NH",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                    StandardOutputEncoding = System.Text.Encoding.UTF8,
                 };
                 using var proc = Process.Start(psi);
-                string csv = proc?.StandardOutput.ReadToEnd() ?? "";
-                proc?.WaitForExit(15000);
+                if (proc == null) return;
+
+                var readTask = proc.StandardOutput.ReadToEndAsync();
+                bool finished = readTask.Wait(5000);
+                if (!finished) { try { proc.Kill(); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); } return; }
+                proc.WaitForExit(1000);
+                string csv = readTask.Result ?? "";
 
                 foreach (var line in csv.Split('\n'))
                 {

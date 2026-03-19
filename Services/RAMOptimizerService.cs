@@ -80,7 +80,6 @@ namespace WinOptimizerHub.Services
                 targetPids = new HashSet<int>(selected.Select(p => p.Pid));
             }
 
-            // Known system process names to skip if no selection provided
             var systemNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 "System", "smss", "csrss", "wininit", "winlogon", "lsass",
@@ -112,7 +111,7 @@ namespace WinOptimizerHub.Services
                     if (cleared % 10 == 0)
                         progress?.Report($"Cleared {cleared} processes...");
                 }
-                catch { /* access denied — skip */ }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 finally { proc.Dispose(); }
             }
 

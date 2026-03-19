@@ -1,4 +1,4 @@
-﻿using WinOptimizerHub.Helpers;
+using WinOptimizerHub.Helpers;
 using WinOptimizerHub.Services;
 
 namespace WinOptimizerHub.Models

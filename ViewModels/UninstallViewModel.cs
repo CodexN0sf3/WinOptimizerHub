@@ -295,7 +295,7 @@ namespace WinOptimizerHub.ViewModels
                             return dir;
                     }
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
 
             return string.Empty;
@@ -304,13 +304,13 @@ namespace WinOptimizerHub.ViewModels
         private void CopyName()
         {
             if (SelectedProgram == null) return;
-            try { Clipboard.SetText(SelectedProgram.Name); } catch { }
+            try { Clipboard.SetText(SelectedProgram.Name); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private void CopyUninstallString()
         {
             if (SelectedProgram?.UninstallString == null) return;
-            try { Clipboard.SetText(SelectedProgram.UninstallString); } catch { }
+            try { Clipboard.SetText(SelectedProgram.UninstallString); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private async Task ForceUninstallAsync()
@@ -410,10 +410,10 @@ namespace WinOptimizerHub.ViewModels
                     {
                         if (key == null) continue;
                         try { key.DeleteSubKeyTree(p.RegistryKey, false); report($"  Removed HKLM\\{path}\\{p.RegistryKey}"); }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
             try
             {
@@ -421,10 +421,10 @@ namespace WinOptimizerHub.ViewModels
                     @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall", writable: true))
                 {
                     try { hkcu?.DeleteSubKeyTree(p.RegistryKey, false); report("  Removed HKCU uninstall key"); }
-                    catch { }
+                    catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 }
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private static void RemoveAppPaths(InstalledProgram p, string installDir, Action<string> report)
@@ -449,16 +449,16 @@ namespace WinOptimizerHub.ViewModels
                                 if (match) toDelete.Add(sub);
                             }
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                     foreach (var sub in toDelete)
                     {
                         try { key.DeleteSubKeyTree(sub, false); report($"  Removed App Path: {sub}"); }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                 }
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         private static void RemoveActiveSetupComponents(InstalledProgram p, string installDir, Action<string> report)
@@ -498,16 +498,16 @@ namespace WinOptimizerHub.ViewModels
                                     if (pathMatch || nameMatch) toDelete.Add(subName);
                                 }
                             }
-                            catch { }
+                            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                         }
                         foreach (var name in toDelete)
                         {
                             try { root.DeleteSubKeyTree(name, false); report($"  Removed Active Setup: {name}"); }
-                            catch { }
+                            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                         }
                     }
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
         }
 
@@ -542,7 +542,7 @@ namespace WinOptimizerHub.ViewModels
                                 if (pathMatch || nameMatch) toDelete.Add(svcName);
                             }
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
 
                     foreach (var name in toDelete)
@@ -561,11 +561,11 @@ namespace WinOptimizerHub.ViewModels
                                     }
                                 }
                             }
-                            catch { }
+                            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                             servicesRoot.DeleteSubKeyTree(name, false);
                             report($"  Removed service key: HKLM\\SYSTEM\\...\\Services\\{name}");
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                 }
             }
@@ -587,7 +587,7 @@ namespace WinOptimizerHub.ViewModels
                             report($"  Killed process: {proc.ProcessName}");
                         }
                     }
-                    catch { }
+                    catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     finally { proc.Dispose(); }
                 }
                 Directory.Delete(dir, recursive: true);
@@ -605,10 +605,10 @@ namespace WinOptimizerHub.ViewModels
                             File.SetAttributes(file, FileAttributes.Normal);
                             File.Delete(file);
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
         }
 
@@ -646,10 +646,10 @@ namespace WinOptimizerHub.ViewModels
                                 report($"  Removed shortcut: {lnk}");
                             }
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                 }
-                catch { }
+                catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
             }
         }
 
@@ -690,7 +690,7 @@ namespace WinOptimizerHub.ViewModels
                                 $"/delete /tn \"{taskName}\" /f", timeoutMs: 5000);
                             report($"  Removed task: {taskName}");
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                 }
             }
@@ -724,13 +724,13 @@ namespace WinOptimizerHub.ViewModels
                                                 sc.Stop();
                                         }
                                     }
-                                    catch { }
+                                    catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                                     CommandHelper.RunSync("sc.exe", $"delete \"{svcName}\"", timeoutMs: 5000);
                                     report($"  Removed service: {svcName}");
                                 }
                             }
                         }
-                        catch { }
+                        catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                     }
                 }
             }
@@ -765,7 +765,7 @@ namespace WinOptimizerHub.ViewModels
                                     timeoutMs: 5000);
                                 report($"  Removed firewall rule: {currentRule}");
                             }
-                            catch { }
+                            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                         }
                     }
                 }

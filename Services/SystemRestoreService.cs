@@ -105,7 +105,7 @@ namespace WinOptimizerHub.Services
                 key?.SetValue("SystemRestorePointCreationFrequency", 0,
                     Microsoft.Win32.RegistryValueKind.DWord);
             }
-            catch { }
+            catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
         }
 
         public async Task<(bool ok, string error)> DeleteRestorePointAsync(uint sequenceNumber)

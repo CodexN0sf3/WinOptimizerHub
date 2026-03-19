@@ -65,7 +65,7 @@ namespace WinOptimizerHub.Helpers
                 if (!exited)
                 {
                     try { if (!p.HasExited) p.Kill(); }
-                    catch { /* ignore – process may have just exited */ }
+                    catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 }
 
                 p.WaitForExit();
@@ -133,7 +133,7 @@ namespace WinOptimizerHub.Helpers
                 }
 
                 bool exited = p.WaitForExit(timeoutMs);
-                if (!exited) try { if (!p.HasExited) p.Kill(); } catch { }
+                if (!exited) try { if (!p.HasExited) p.Kill(); } catch  { AppLogger.Log(new Exception("Unhandled"), nameof(AppLogger)); }
                 p.WaitForExit();
 
                 return sb.ToString().Trim();
